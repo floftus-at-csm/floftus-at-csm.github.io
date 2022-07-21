@@ -62,12 +62,12 @@ for i in range(5):
 
     final_image = Image.new('L', (600, 800))
 
-    # final_image.paste(cropped_img, (0,0))
-    final_image.paste(cropped_img, (0,0), cropped_img)
+    final_image.paste(cropped_img, (0,0))
+    # final_image.paste(cropped_img, (0,0), cropped_img)
     final_image.show()
 
     final_image.save("public/image1.png")
-    time.sleep(45)
+    time.sleep(125)
 
     repo = git.Repo('.git')
     # repo.index.commit("Is this on?")
