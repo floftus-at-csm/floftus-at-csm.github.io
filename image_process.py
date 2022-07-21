@@ -43,7 +43,7 @@ width, height = composited1.size
 composited1 = PIL_processes.resize_image(composited1, int(width/3), int(height/3))
 width, height = composited1.size
 
-for i in range(5):
+for i in range(15):
     left = random.randint(0, width-600)
     top = random.randint(0, height-800)
 
@@ -67,7 +67,7 @@ for i in range(5):
     final_image.show()
 
     final_image.save("public/image1.png")
-    time.sleep(125)
+    time.sleep(105)
 
     repo = git.Repo('.git')
     # repo.index.commit("Is this on?")
