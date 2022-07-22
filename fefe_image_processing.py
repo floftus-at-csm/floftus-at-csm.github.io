@@ -254,6 +254,12 @@ class PIL_processes:
         im_output = enhancer.enhance(contrast_amount)
         return im_output
 
+    def PIL_brightness(img, brightness_amount):
+        enhancer = ImageEnhance.Brightness(img)
+        new_image = enhancer.enhance(brightness_amount)
+        return new_image
+
+
 
 class general:
     # ================================= #
