@@ -24,6 +24,7 @@ for i in range(15):
     img1 = random.choice(images)
     img2 = random.choice(images)
     img3 = random.choice(images)
+    img4 = random.choice(images)
     mask = random.choice(images)
     # print(images[0])
     # img1 = images[0]
@@ -35,6 +36,7 @@ for i in range(15):
     img2 = PIL_processes.grayscale(img2)
     img3 = PIL_processes.grayscale(img3)
     mask = PIL_processes.grayscale(mask)
+    img4 = PIL_processes.grayscale(img4)
 
     img2 = PIL_processes.PIL_enhance_edges(img2)
     # img2 = PIL_processes.PIL_invert(contoured)
@@ -46,8 +48,8 @@ for i in range(15):
     # composited1.show()
 
     solarised= PIL_processes.solarize(img3, 130)
-    img3 = PIL_processes.PIL_invert(img3)
-    composited1 = Image.composite(composited1, solarised, img3)
+    img4 = PIL_processes.PIL_invert(img4)
+    composited1 = Image.composite(composited1, solarised, img4)
     composited1.show()
     composited1 = PIL_processes.PIL_contrast(composited1, 1.25)
 
