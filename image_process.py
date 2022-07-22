@@ -37,7 +37,7 @@ for i in range(15):
     mask = PIL_processes.grayscale(mask)
 
     contoured = PIL_processes.PIL_contour(img2, 50)
-    # img2 = PIL_processes.PIL_invert(contoured)
+    img2 = PIL_processes.PIL_invert(contoured)
 
     composited1 = Image.composite(img1, img2, mask)
     composited1.show()
