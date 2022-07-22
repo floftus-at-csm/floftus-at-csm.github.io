@@ -47,7 +47,7 @@ for i in range(15):
 
     img3= PIL_processes.solarize(img3, 130)
     # img3 = PIL_processes.PIL_invert(contoured)
-    composited1 = Image.composite(composited1, img3, mask)
+    composited1 = Image.composite(composited1, img3, img1)
     composited1.show()
 
 
