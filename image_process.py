@@ -20,32 +20,32 @@ print(random.choice(images))
 # combine two - then edge that image
 # create 'watermark' with third - layer onto combined image
 
-img1 = random.choice(images)
-img2 = random.choice(images)
-img3 = random.choice(images)
-mask = random.choice(images)
-# print(images[0])
-# img1 = images[0]
-# img2 = images[1]
-# img3 = images[2]
-# mask = images[6]
-
-img1 = PIL_processes.grayscale(img1)
-img2 = PIL_processes.grayscale(img2)
-img3 = PIL_processes.grayscale(img3)
-mask = PIL_processes.grayscale(mask)
-
-composited1 = Image.composite(img1, img2, mask)
-composited1.show()
-composited1 = PIL_processes.PIL_contrast(composited1, 1.25)
-composited1.show()
-
-
-width, height = composited1.size
-composited1 = PIL_processes.resize_image(composited1, int(width/3), int(height/3))
-width, height = composited1.size
-
 for i in range(15):
+    img1 = random.choice(images)
+    img2 = random.choice(images)
+    img3 = random.choice(images)
+    mask = random.choice(images)
+    # print(images[0])
+    # img1 = images[0]
+    # img2 = images[1]
+    # img3 = images[2]
+    # mask = images[6]
+
+    img1 = PIL_processes.grayscale(img1)
+    img2 = PIL_processes.grayscale(img2)
+    img3 = PIL_processes.grayscale(img3)
+    mask = PIL_processes.grayscale(mask)
+
+    composited1 = Image.composite(img1, img2, mask)
+    composited1.show()
+    composited1 = PIL_processes.PIL_contrast(composited1, 1.25)
+    composited1.show()
+
+
+    width, height = composited1.size
+    composited1 = PIL_processes.resize_image(composited1, int(width/3), int(height/3))
+    width, height = composited1.size
+
     left = random.randint(0, width-1200)
     top = random.randint(0, height-800)
 
