@@ -37,9 +37,9 @@ for i in range(15):
     mask = PIL_processes.grayscale(mask)
 
     composited1 = Image.composite(img1, img2, mask)
-    composited1.show()
+    # composited1.show()
     composited1 = PIL_processes.PIL_contrast(composited1, 1.25)
-    composited1.show()
+    # composited1.show()
 
 
     width, height = composited1.size
@@ -69,8 +69,8 @@ for i in range(15):
     final_image.paste(cropped_img, (0,0))
     final_image2.paste(cropped_img2, (0,0))
     # final_image.paste(cropped_img, (0,0), cropped_img)
-    final_image.show()
-    final_image2.show()
+    # final_image.show()
+    # final_image2.show()
 
     final_image.save("public/image1.png")
     final_image2.save("public/image2.png")
