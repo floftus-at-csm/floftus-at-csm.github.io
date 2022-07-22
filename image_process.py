@@ -44,10 +44,11 @@ composited1 = PIL_processes.resize_image(composited1, int(width/3), int(height/3
 width, height = composited1.size
 
 for i in range(15):
-    left = random.randint(0, width-600)
+    left = random.randint(0, width-1200)
     top = random.randint(0, height-800)
 
     cropped_img = composited1.crop((left, top, left+600, top+800))
+    cropped_img2 = composited1.crop((left+600, top, left+1200, top+800))
 
 
     # edges = PIL_processes.PIL_edges(composited1)
@@ -61,15 +62,19 @@ for i in range(15):
     # composited1.show()
 
     final_image = Image.new('L', (600, 800))
+    final_image2 = Image.new('L', (600, 800))
 
     final_image.paste(cropped_img, (0,0))
+    final_image2.paste(cropped_img2, (0,0))
     # final_image.paste(cropped_img, (0,0), cropped_img)
     final_image.show()
+    final_image2.show()
 
     final_image.save("public/image1.png")
-    time.sleep(105)
+    final_image2.save("public/image2.png")
 
     repo = git.Repo('.git')
     # repo.index.commit("Is this on?")
     repo.git.commit('-am', 'test commit')
     repo.git.push()
+    time.sleep(105)
