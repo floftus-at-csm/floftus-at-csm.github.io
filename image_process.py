@@ -36,8 +36,10 @@ img3 = PIL_processes.grayscale(img3)
 mask = PIL_processes.grayscale(mask)
 
 composited1 = Image.composite(img1, img2, mask)
-
 composited1.show()
+composited1 = PIL_processes.PIL_contrast(composited1, 1.25)
+composited1.show()
+
 
 width, height = composited1.size
 composited1 = PIL_processes.resize_image(composited1, int(width/3), int(height/3))
@@ -77,5 +79,5 @@ for i in range(15):
     # repo.index.commit("Is this on?")
     repo.git.commit('-am', 'test commit')
     repo.git.push()
-    
+
     time.sleep(105)
