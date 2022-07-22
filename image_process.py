@@ -40,7 +40,7 @@ for i in range(15):
     mask = PIL_processes.PIL_invert(contoured)
 
     composited1 = Image.composite(img1, img2, mask)
-    # composited1.show()
+    composited1.show()
     composited1 = PIL_processes.PIL_contrast(composited1, 1.25)
     # composited1.show()
 
