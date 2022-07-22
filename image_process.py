@@ -50,8 +50,8 @@ for i in range(15):
     solarised= PIL_processes.solarize(img3, 130)
     # # img4 = PIL_processes.PIL_invert(img4)
     composited1 = Image.composite(composited1, solarised, img3)
-    composited1 = PIL_processes.PIL_contrast(composited1, 1.5) 
-    composited1 = PIL_processes.PIL_brightness(composited1, 1.25)
+    composited1 = PIL_processes.PIL_contrast(composited1, 1.75) 
+    # composited1 = PIL_processes.PIL_brightness(composited1, 1.25)
     composited1.show()
     
 
