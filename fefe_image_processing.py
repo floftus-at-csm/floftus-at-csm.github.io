@@ -9,12 +9,15 @@ import imutils
 import inspect
 from os import path, listdir
 ImageFile.LOAD_TRUNCATED_IMAGES = True # used to stop errors with file size
-
+from skimage import io, util
+from skimage.util import compare_images
+from skimage import data, transform, exposure, filters
+from skimage.filters import threshold_otsu, threshold_local
 # class fefe_image_processes:
 class scikit:
-    from skimage import io, util
-    from skimage import data, transform, exposure, filters
-    from skimage.filters import threshold_otsu, threshold_local
+    # from skimage import io, util
+    # from skimage import data, transform, exposure, filters
+    # from skimage.filters import threshold_otsu, threshold_local
     def resize_image_for_screen(starter_img, width, height, dir_path):
         new_img = starter_img.resize((width, height), Image.ANTIALIAS)
         return new_img

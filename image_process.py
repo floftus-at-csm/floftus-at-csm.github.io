@@ -8,7 +8,7 @@
 from time import sleep
 from PIL import Image, ImageDraw
 import git
-from fefe_image_processing import PIL_processes, general
+from fefe_image_processing import PIL_processes, general, scikit
 import random
 import time
 
@@ -45,8 +45,8 @@ for i in range(15):
     composited1 = PIL_processes.PIL_contrast(composited1, 1.25)
     # composited1.show()
 
-    contoured = PIL_processes.PIL_contour(img3, 50)
-    img3 = PIL_processes.PIL_invert(contoured)
+    img3= PIL_processes.solarize(img3, 130)
+    # img3 = PIL_processes.PIL_invert(contoured)
     composited1 = Image.composite(composited1, img3, mask)
     composited1.show()
 
