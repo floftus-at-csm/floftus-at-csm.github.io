@@ -42,13 +42,14 @@ for i in range(15):
     
     composited1 = Image.composite(img1, img2, mask)
     # composited1.show()
-    composited1 = PIL_processes.PIL_contrast(composited1, 1.25)
+    # composited1 = PIL_processes.PIL_contrast(composited1, 1.25)
     # composited1.show()
 
     solarised= PIL_processes.solarize(img3, 130)
     img3 = PIL_processes.PIL_invert(img3)
     composited1 = Image.composite(composited1, solarised, img3)
     composited1.show()
+    composited1 = PIL_processes.PIL_contrast(composited1, 1.25)
 
 
     width, height = composited1.size
