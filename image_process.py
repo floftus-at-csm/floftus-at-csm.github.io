@@ -39,11 +39,16 @@ for i in range(15):
     contoured = PIL_processes.PIL_contour(img2, 50)
     img2 = PIL_processes.PIL_invert(contoured)
 
+    # this is all new from - here
     composited1 = Image.composite(img1, img2, mask)
     composited1.show()
     composited1 = PIL_processes.PIL_contrast(composited1, 1.25)
     # composited1.show()
 
+    countoured = PIL_processes.PIL_contour(img3, 50)
+    img3 = PIL_processes.PIL_invert(contoured)
+    composited1 = Image.composite(composited1, img3, mask)
+    # to here
 
     width, height = composited1.size
     composited1 = PIL_processes.resize_image(composited1, int(width/3), int(height/3))
