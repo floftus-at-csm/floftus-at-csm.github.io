@@ -259,6 +259,11 @@ class PIL_processes:
         new_image = enhancer.enhance(brightness_amount)
         return new_image
 
+    def PIL_rotate(img, rotation):
+        # 90 is counterclockwise by 90
+        rotated = img.rotate(rotation, expand=True)
+        return rotated
+
 
 
 class general:
