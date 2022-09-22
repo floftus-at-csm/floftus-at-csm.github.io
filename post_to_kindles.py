@@ -9,30 +9,27 @@ source_image_folder = "individuals/"
 
 images = general.load_images_in_folder(source_image_folder)
 
+current_image = images[random.randint(0, len(images)-1)]
+
+left = 0
+top = 0
+
+# I should add a bit of spacing to account for the gap!
+cropped_img = current_image.crop((left, top, left+800, top+600))
+cropped_img2 = current_image.crop((left+800, top, left+1600, top+600))
+
+cropped_img3 = current_image.crop((left, top+600, left+800, top+1200))
+cropped_img4 = current_image.crop((left+800, top+600, left+1600, top+1200))
+
 final_image = Image.new('L', (600, 800))
 final_image2 = Image.new('L', (600, 800))
 final_image3 = Image.new('L', (600, 800))
 final_image4 = Image.new('L', (600, 800))
 
-im_to_post1 = PIL_processes.resize_image(images[random.randint(0, len(images)-1)], 600, 800)
-im_to_post1 = PIL_processes.grayscale(im_to_post1)
-final_image.paste(im_to_post1, (0,0))
-
-left = random.randint(0,400)
-top = random.randint(0,400)
-im_to_post2 = images[random.randint(0, len(images)-1)].crop((left, top, left+800, top+600))
-im_to_post2 = PIL_processes.grayscale(im_to_post2)
-final_image2.paste(im_to_post2, (0,0))
-
-im_to_post3 = PIL_processes.resize_image(images[random.randint(0, len(images)-1)], 600, 800)
-im_to_post3 = PIL_processes.grayscale(im_to_post3)
-final_image3.paste(im_to_post3, (0,0))
-
-left = random.randint(0,400)
-top = random.randint(0,400)
-im_to_post4 = images[random.randint(0, len(images)-1)].crop((left, top, left+800, top+600))
-im_to_post4 = PIL_processes.grayscale(im_to_post4)
-final_image4.paste(im_to_post4, (0,0))
+final_image.paste(cropped_img, (0,0))
+final_image2.paste(cropped_img2, (0,0))
+final_image3.paste(cropped_img3, (0,0))
+final_image4.paste(cropped_img4, (0,0))
 
 final_image.save("public/image1.png")
 final_image2.save("public/image2.png")
