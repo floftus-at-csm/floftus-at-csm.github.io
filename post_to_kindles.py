@@ -15,11 +15,11 @@ left = 0
 top = 0
 
 # I should add a bit of spacing to account for the gap!
-cropped_img = current_image.crop((left, top, left+800, top+600))
-cropped_img2 = current_image.crop((left+800, top, left+1600, top+600))
+cropped_img = current_image.crop((left, top, left+600, top+800))
+cropped_img2 = current_image.crop((left+600, top, left+1200, top+800))
 
-cropped_img3 = current_image.crop((left, top+600, left+800, top+1200))
-cropped_img4 = current_image.crop((left+800, top+600, left+1600, top+1200))
+cropped_img3 = current_image.crop((left, top+800, left+600, top+1600))
+cropped_img4 = current_image.crop((left+600, top+800, left+1200, top+1600))
 
 final_image = Image.new('L', (600, 800))
 final_image2 = Image.new('L', (600, 800))
