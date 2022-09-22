@@ -34,7 +34,7 @@ final_image4.paste(cropped_img4, (0,0))
 final_image.save("public/image1.png")
 final_image2.save("public/image2.png")
 
-final_image.save("public/image3.png")
+final_image3.save("public/image3.png")
 final_image4.save("public/image4.png")
 
 repo = git.Repo('.git')
