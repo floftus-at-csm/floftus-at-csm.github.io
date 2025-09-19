@@ -137,9 +137,53 @@ body{
             margin-top: 1.2rem;
         }
     </style>
+        /* Full-page video background */
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: 0;
+            pointer-events: none;
+            background: #111;
+        }
+        .dashboard-main {
+            position: relative;
+            z-index: 10;
+            max-width: 1400px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        /* Overlay for better readability */
+        .dashboard-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(255,255,255,0.08);
+            z-index: 5;
+            pointer-events: none;
+        }
+</style>
 </head>
-<body>
-        <div class="dashboard-main" style="max-width: 1400px; min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-start; align-items: center;">
+<body style="margin:0;padding:0;overflow-x:hidden;">
+    <video class="video-bg" id="video-bg" autoplay muted playsinline loop>
+        <source src="IMG_1869.MOV" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="dashboard-overlay"></div>
+    <div class="dashboard-main">
             <!-- Title and QR Row -->
             <div style="width:100%;display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.2rem;gap:2.5rem;">
                 <div style="flex:1;min-width:0;">
@@ -156,20 +200,11 @@ body{
                 </div>
             </div>
             <div style="width:100%;display: flex; flex-direction: row; gap: 2.5rem; align-items: flex-start;">
-                <!-- Video Section (2/3 width) -->
-                <div style="flex:2; position:relative; min-width:0; display:flex; align-items:center; justify-content:center;">
-                    <div style="width:100%; background:#111; border-radius:12px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;">
-                        <video id="video-stream" style="width:100%; height:auto; max-height:60vh; border-radius:12px; object-fit:cover; background:#111;" autoplay muted playsinline loop>
-                            <source src="public/IMG_1869.MOV" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                        <!-- Detection overlay -->
-                        <div id="detection-overlay" style="position:absolute; bottom:18px; left:18px; background:rgba(255,255,255,0.85); color:var(--colour-2); font-family:'Doto-Bold',monospace; font-size:1.05rem; border-radius:8px; padding:7px 16px; box-shadow:0 2px 8px #0002; border:1.5px solid var(--colour-4); letter-spacing:0.5px; min-width:120px; text-align:left; opacity:0.92;">
-                            <span style="font-size:0.95em; color:var(--colour-4); font-family:'Doto-Black',monospace;">Detection:</span> <span id="pollinator-status">Analyzing...</span>
-                        </div>
-                    </div>
+                <!-- Detection overlay, now absolutely positioned over video background -->
+                <div id="detection-overlay" style="position:fixed; bottom:38px; left:38px; background:rgba(255,255,255,0.85); color:var(--colour-2); font-family:'Doto-Bold',monospace; font-size:1.05rem; border-radius:8px; padding:7px 16px; box-shadow:0 2px 8px #0002; border:1.5px solid var(--colour-4); letter-spacing:0.5px; min-width:120px; text-align:left; opacity:0.92; z-index:20;">
+                    <span style="font-size:0.95em; color:var(--colour-4); font-family:'Doto-Black',monospace;">Detection:</span> <span id="pollinator-status">Analyzing...</span>
                 </div>
-                <!-- Dashboard Cards (1/3 width) -->
+                <!-- Dashboard Cards (centered, floating over video) -->
                 <div style="flex:1; display:flex; flex-direction:column; gap:2.2rem; min-width:320px;">
                     <div class="dashboard-card" id="power-card">
                         <div class="dashboard-card-title">🔌 Power</div>
@@ -180,10 +215,8 @@ body{
                         <div class="dashboard-card-bar"><div class="dashboard-card-bar-inner" id="moisture-bar" style="width:60%"></div></div>
                         <div class="dashboard-card-value" id="moisture-value">60%</div>
                     </div>
-
                 </div>
                 <div style="flex:1; display:flex; flex-direction:row; gap:2.2rem; min-width:320px;">
-
                     <div class="dashboard-card" id="bioacoustics-card">
                         <div class="dashboard-card-title">🎵 Bioacoustics (Today)</div>
                         <canvas class="dashboard-card-graph" id="bioacoustics-graph" width="400" height="100"></canvas>
