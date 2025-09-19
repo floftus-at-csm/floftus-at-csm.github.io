@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>imby dashboard</title>
+    <link rel="stylesheet" href="imby.css">
+    <style>
+        :root {
+  --colour-1: #29ca27;
+  --colour-2: #033c0f;
+  --colour-3: #ed762e;
+  --colour-4: #530fc4;
+  --colour-5: #1c2cc8;
+  --colour-6: #614125;
+  --bg-color: #160011;
+  --text-white: #000000;
+  --text-black: #292929;
+}
+body{
+    background-color: var(--bg-color);
+}
+        .dashboard-header {
+            font-family: "Gloridot", monospace;
+            font-size: 2.5rem;
+            color: var(--colour-2);
+            margin-bottom: 1.5rem;
+            margin-top: 1.5rem;
+            text-align: left;
+            letter-spacing: 2px;
+        }
+        .dashboard-subtitle {
+            font-family: "Doto-Bold", monospace;
+            color: var(--colour-3);
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            margin-left: 2px;
+        }
+        .dashboard-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 2.5rem;
+        }
+        .dashboard-video {
+            /* width: 100%; */
+            /* min-height: 320px; */
+            height:30vh;
+            max-height: 30vh;
+            background: var(--bg-color);
+            border-radius: 18px;
+            box-shadow: 0 4px 32px #0002;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--colour-1);
+            font-size: 2em;
+            position: relative;
+        }
+        #video-stream {
+            /* width: 100%; */
+            width:auto;
+            height: 40vh;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+        .dashboard-pollinator {
+            color: var(--colour-4);
+            font-size: 1.1rem;
+            margin-top: 1.2rem;
+            font-family: "Doto-Bold", monospace;
+        }
+        .dashboard-cards {
+            display: flex;
+            flex-direction: row;
+            gap: 2.5rem;
+            justify-content: center;
+            align-items: stretch;
+            min-height: 220px;
+        }
+        .dashboard-card {
+            background: var(--bg-color);
+            border-radius: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 2.2rem 2rem 1.5rem 2rem;
+            /* min-width: 320px; */
+            flex: 1 1 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: "Doto-Bold", monospace;
+            color: var(--colour-2);
+            font-size: 1.2rem;
+            transition: box-shadow 0.2s;
+        }
+        .dashboard-card-title {
+            font-size: 1.5rem;
+            color: var(--colour-1);
+            margin-bottom: 1.2rem;
+            font-family: "Doto-Bold", monospace;
+        }
+        .dashboard-card-value {
+            font-size: 2.5rem;
+            color: var(--colour-3);
+            font-family: "Doto-Black", monospace;
+            margin-bottom: 0.5rem;
+        }
+        .dashboard-card-extra {
+            font-size: 1.1rem;
+            color: var(--colour-4);
+            margin-top: 0.5rem;
+        }
+        .dashboard-card-bar {
+            width: 80%;
+            height: 18px;
+            background: var(--colour-2);
+            border-radius: 9px;
+            margin: 1.2rem auto 0.7rem auto;
+            overflow: hidden;
+        }
+        .dashboard-card-bar-inner {
+            height: 100%;
+            background: linear-gradient(90deg,#4fc3f7,#1976d2);
+            border-radius: 9px;
+            transition: width 0.5s;
+        }
+        .dashboard-card-graph {
+            width: 90%;
+            height: 100px;
+            background: var(--bg-color);
+            border-radius: 12px;
+            margin-top: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+        <div class="dashboard-main" style="max-width: 1400px; min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-start; align-items: center;">
+            <!-- Title and QR Row -->
+            <div style="width:100%;display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.2rem;gap:2.5rem;">
+                <div style="flex:1;min-width:0;">
+                    <div class="dashboard-header" style="font-size:3.5rem;letter-spacing:3px;line-height:1.05;font-family:'Gloridot',monospace;text-shadow:0 2px 12px #0002,0 1px 0 #fff;">
+                        Bio-technical Metabolism
+                    </div>
+                    <div class="dashboard-subtitle" style="font-size:1.5rem;margin-top:0.2rem;letter-spacing:1.2px;color:var(--colour-4);font-family:'Doto-Black',monospace;">
+                        Ecology &amp; Environment Monitor
+                    </div>
+                </div>
+                <div style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.07);border-radius:16px;padding:1.1rem 1.2rem 0.7rem 1.2rem;box-shadow:0 2px 12px #0002;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=https://your-link-here.com" alt="Learn more QR" style="width:110px;height:110px;border-radius:12px;border:2px solid var(--colour-1);background:#fff;box-shadow:0 2px 8px #0002;">
+                    <div style="font-size:1.08rem;color:var(--colour-2);margin-top:0.2rem;font-family:'Doto-Bold',monospace;letter-spacing:0.5px;">Learn more here</div>
+                </div>
+            </div>
+            <div style="width:100%;display: flex; flex-direction: row; gap: 2.5rem; align-items: flex-start;">
+                <!-- Video Section (2/3 width) -->
+                <div style="flex:2; position:relative; min-width:0; display:flex; align-items:center; justify-content:center;">
+                    <div style="width:100%; background:#111; border-radius:12px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;">
+                        <video id="video-stream" style="width:100%; height:auto; max-height:60vh; border-radius:12px; object-fit:cover; background:#111;" autoplay muted playsinline loop>
+                            <source src="public/IMG_1869.MOV" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <!-- Detection overlay -->
+                        <div id="detection-overlay" style="position:absolute; bottom:18px; left:18px; background:rgba(255,255,255,0.85); color:var(--colour-2); font-family:'Doto-Bold',monospace; font-size:1.05rem; border-radius:8px; padding:7px 16px; box-shadow:0 2px 8px #0002; border:1.5px solid var(--colour-4); letter-spacing:0.5px; min-width:120px; text-align:left; opacity:0.92;">
+                            <span style="font-size:0.95em; color:var(--colour-4); font-family:'Doto-Black',monospace;">Detection:</span> <span id="pollinator-status">Analyzing...</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Dashboard Cards (1/3 width) -->
+                <div style="flex:1; display:flex; flex-direction:column; gap:2.2rem; min-width:320px;">
+                    <div class="dashboard-card" id="power-card">
+                        <div class="dashboard-card-title">🔌 Power</div>
+                        <div class="dashboard-card-value" id="power-value">1234 W</div>
+                    </div>
+                    <div class="dashboard-card" id="moisture-card">
+                        <div class="dashboard-card-title">💧 Soil Moisture</div>
+                        <div class="dashboard-card-bar"><div class="dashboard-card-bar-inner" id="moisture-bar" style="width:60%"></div></div>
+                        <div class="dashboard-card-value" id="moisture-value">60%</div>
+                    </div>
+
+                </div>
+                <div style="flex:1; display:flex; flex-direction:row; gap:2.2rem; min-width:320px;">
+
+                    <div class="dashboard-card" id="bioacoustics-card">
+                        <div class="dashboard-card-title">🎵 Bioacoustics (Today)</div>
+                        <canvas class="dashboard-card-graph" id="bioacoustics-graph" width="400" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script>
+    // All cards always visible in new layout
+
+        // Update dashboard data every 15 seconds
+        function updateDashboard() {
+            // Power data (placeholder, random value)
+            document.getElementById('power-value').textContent = (1200 + Math.floor(Math.random()*200)) + ' W';
+            // Soil moisture (placeholder, random value)
+            const val = 50 + Math.floor(Math.random()*40);
+            document.getElementById('moisture-value').textContent = val + '%';
+            document.getElementById('moisture-bar').style.width = val + '%';
+            // Pollinator detection status (placeholder)
+            const status = ["Analyzing...", "Earth worm detected!", "Wood louse!", "Analyzing..."];
+            document.getElementById('pollinator-status').textContent = status[Math.floor(Math.random()*status.length)];
+            // Bioacoustics graph (random data)
+            const canvas = document.getElementById('bioacoustics-graph');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.strokeStyle = '#1976d2';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            let y0 = 50 + Math.random()*20;
+            ctx.moveTo(0, y0);
+            for(let x=0; x<=canvas.width; x+=20) {
+                let y = 50 + Math.sin(x/80 + Date.now()/20000)*30 + Math.random()*10;
+                ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+        }
+        setInterval(updateDashboard, 15000);
+        updateDashboard();
+    </script>
+</body>
+</html>

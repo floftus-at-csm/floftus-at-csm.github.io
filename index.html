@@ -1,10 +1,234 @@
-Hello World
-<a href="image1.html">link to second page</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+		<meta name="viewport" content="width=800, initial-scale=1.0, user-scalable=no">
+	<title>Kindle Dashboard</title>
+		<style>
+			html, body {
+				margin: 0;
+				padding: 0;
+				width: 800px;
+				height: 600px;
+				overflow: hidden;
+				background: #fff;
+			}
+			#dashboard {
+				width: 1600px;
+				height: 1200px;
+				position: relative;
+				background: #e0e0e0;
+			}
+			.quadrant {
+				width: 800px;
+				height: 600px;
+				position: absolute;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 2em;
+				font-family: sans-serif;
+				background: #f0f0f0;
+				box-sizing: border-box;
+				border: 2px solid #bbb;
+			}
+			/* Quadrant positions */
+			.q1 { left: 0; top: 0; }
+			.q2 { left: 800px; top: 0; }
+			.q3 { left: 0; top: 600px; }
+			.q4 { left: 800px; top: 600px; }
+		</style>
+</head>
+<body>
+				<div id="viewport">
+					<div id="dashboard-canvas" style="font-family:'Segoe UI',Arial,sans-serif;">
+						<!-- Header -->
+						<div style="position:absolute;top:0;left:0;width:100%;height:110px;background:rgba(255,255,255,0.95);box-shadow:0 2px 12px #0001;display:flex;align-items:center;z-index:2;">
+							<div style="margin-left:48px;font-size:54px;font-weight:900;letter-spacing:2px;color:#2a4d69;">e-celium</div>
+							<div style="margin-left:32px;font-size:22px;color:#4f6d7a;font-weight:400;">Roof Terrace Ecology Dashboard</div>
+							<div id="clock" style="margin-left:auto;margin-right:48px;font-size:38px;font-family:monospace;color:#2a4d69;"></div>
+						</div>
+						<!-- Livestream Card: always visible, spans full dashboard width -->
+						<div id="livestream-card" style="position:absolute;top:140px;left:40px;width:1640px;height:420px;background:rgba(255,255,255,0.97);border-radius:32px;box-shadow:0 4px 32px #0002;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1;">
+							<div style="font-size:32px;font-weight:600;color:#2a4d69;display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+								<span style="font-size:38px;">�</span> Livestream
+							</div>
+							<div style="width:90%;height:260px;background:#222;border-radius:18px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:2em;">
+								Video Stream
+							</div>
+							<div style="margin-top:18px;font-size:22px;color:#4f6d7a;">Pollinator Detection: <span id="pollinator-status">Analyzing...</span></div>
+						</div>
+						<!-- Info Cards: only two visible at a time, cycled by JS -->
+						<div id="power-card" style="position:absolute;top:600px;left:80px;width:500px;height:220px;background:rgba(255,255,255,0.92);border-radius:24px;box-shadow:0 4px 24px #0002;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:2;">
+							<div style="font-size:32px;font-weight:600;color:#2a4d69;display:flex;align-items:center;gap:12px;">
+								<span style="font-size:38px;">�</span> Power
+							</div>
+							<div style="font-size:54px;font-weight:700;color:#1b263b;margin-top:10px;">
+								<span id="power-value">1234</span> <span style="font-size:28px;font-weight:400;">W</span>
+							</div>
+						</div>
+						<div id="moisture-card" style="position:absolute;top:600px;left:600px;width:500px;height:220px;background:rgba(255,255,255,0.92);border-radius:24px;box-shadow:0 4px 24px #0002;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:2;">
+							<div style="font-size:32px;font-weight:600;color:#2a4d69;display:flex;align-items:center;gap:12px;">
+								<span style="font-size:38px;">💧</span> Soil Moisture
+							</div>
+							<div style="width:80%;height:18px;background:#e0eafc;border-radius:9px;margin-top:18px;overflow:hidden;">
+								<div id="moisture-bar" style="height:100%;width:60%;background:linear-gradient(90deg,#4fc3f7,#1976d2);border-radius:9px;"></div>
+							</div>
+							<div style="font-size:32px;font-weight:700;color:#1b263b;margin-top:8px;">
+								<span id="moisture-value">60</span>%
+							</div>
+						</div>
+						<div id="bioacoustics-card" style="position:absolute;top:600px;left:1120px;width:500px;height:220px;background:rgba(255,255,255,0.92);border-radius:24px;box-shadow:0 4px 24px #0002;display:none;flex-direction:column;align-items:flex-start;justify-content:center;padding:24px 32px;z-index:2;">
+							<div style="font-size:32px;font-weight:600;color:#2a4d69;display:flex;align-items:center;gap:12px;">
+								<span style="font-size:38px;">🎵</span> Bioacoustics (Today)
+							</div>
+							<canvas id="bioacoustics-graph" width="440" height="100" style="margin-top:18px;width:440px;height:100px;background:#e0eafc;border-radius:12px;"></canvas>
+						</div>
+					</div>
+				</div>
+		<script>
+			// Get section from URL (?section=1,2,3,4)
+			function getSection() {
+				const params = new URLSearchParams(window.location.search);
+				const s = params.get('section');
+				return ['1','2','3','4'].includes(s) ? s : '1';
+			}
+			// Set up dashboard canvas
+			const dashboard = document.getElementById('dashboard-canvas');
+			const viewport = document.getElementById('viewport');
+			const params = new URLSearchParams(window.location.search);
+			const norotate = params.get('norotate') === '1';
+			// Adjusted dashboard size for screen gaps
+			const DASHBOARD_WIDTH = 1720; // 800 + 120 + 800
+			const DASHBOARD_HEIGHT = 1280; // 600 + 80 + 600
+			if (norotate) {
+				// Design mode: show full dashboard, no cropping or rotation
+				viewport.style.width = DASHBOARD_WIDTH + 'px';
+				viewport.style.height = DASHBOARD_HEIGHT + 'px';
+				viewport.style.overflow = 'visible';
+				viewport.style.background = 'linear-gradient(135deg,#e0eafc 0%,#cfdef3 100%)';
+				dashboard.style.width = DASHBOARD_WIDTH + 'px';
+				dashboard.style.height = DASHBOARD_HEIGHT + 'px';
+				dashboard.style.position = 'relative';
+				dashboard.style.left = '0';
+				dashboard.style.top = '0';
+				dashboard.style.overflow = 'visible';
+				dashboard.style.background = '#e0e0e0';
+			} else {
+				// Normal mode: show only quadrant
+				viewport.style.width = '800px';
+				viewport.style.height = '600px';
+				viewport.style.overflow = 'hidden';
+				viewport.style.background = 'linear-gradient(135deg,#e0eafc 0%,#cfdef3 100%)';
+				dashboard.style.width = DASHBOARD_WIDTH + 'px';
+				dashboard.style.height = DASHBOARD_HEIGHT + 'px';
+				dashboard.style.position = 'absolute';
+				dashboard.style.left = '0';
+				dashboard.style.top = '0';
+				dashboard.style.overflow = 'hidden';
+				dashboard.style.background = '#e0e0e0';
+			}
 
-<img src="inspiration/8_10.png">
-<img src="public/image1.png">
-<img src="public/image2.png">
-<img src="public/image3.png">
-<img src="public/image4.png">
-is the image there?]
-heihihihi
+			// Update all dashboard data every 15 seconds (Kindle-friendly)
+			function updateDashboard() {
+				// Live clock
+				const now = new Date();
+				const h = String(now.getHours()).padStart(2,'0');
+				const m = String(now.getMinutes()).padStart(2,'0');
+				const s = String(now.getSeconds()).padStart(2,'0');
+				document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+
+				// Power data (placeholder, random value)
+				document.getElementById('power-value').textContent = (1200 + Math.floor(Math.random()*200)).toString();
+
+				// Soil moisture (placeholder, random value)
+				const val = 50 + Math.floor(Math.random()*40);
+				document.getElementById('moisture-value').textContent = val;
+				document.getElementById('moisture-bar').style.width = val + '%';
+
+				// Pollinator detection status (placeholder)
+				const status = ["Analyzing...", "No pollinators", "Pollinator detected!", "Analyzing..."];
+				document.getElementById('pollinator-status').textContent = status[Math.floor(Math.random()*status.length)];
+
+				// Bioacoustics graph (random data)
+				const canvas = document.getElementById('bioacoustics-graph');
+				const ctx = canvas.getContext('2d');
+				ctx.clearRect(0,0,canvas.width,canvas.height);
+				ctx.strokeStyle = '#1976d2';
+				ctx.lineWidth = 3;
+				ctx.beginPath();
+				let y0 = 50 + Math.random()*20;
+				ctx.moveTo(0, y0);
+				for(let x=0; x<=canvas.width; x+=20) {
+					let y = 50 + Math.sin(x/80 + Date.now()/20000)*30 + Math.random()*10;
+					ctx.lineTo(x, y);
+				}
+				ctx.stroke();
+			}
+			setInterval(updateDashboard, 15000);
+			updateDashboard();
+
+			// Card cycling logic: show only two info cards at a time, rotate every minute
+			const cardSets = [
+				['power-card', 'moisture-card'],
+				['bioacoustics-card', 'power-card'],
+				['moisture-card', 'bioacoustics-card']
+			];
+			let cardIndex = 0;
+			function showCards() {
+				// Hide all
+				document.getElementById('power-card').style.display = 'none';
+				document.getElementById('moisture-card').style.display = 'none';
+				document.getElementById('bioacoustics-card').style.display = 'none';
+				// Show current set
+				for (const id of cardSets[cardIndex]) {
+					document.getElementById(id).style.display = 'flex';
+				}
+				cardIndex = (cardIndex + 1) % cardSets.length;
+			}
+			showCards();
+			setInterval(showCards, 60000); // every minute
+
+							// Quadrant cropping and rotation (viewported), with option to disable for design
+							const section = getSection();
+							let rotate = 0, tx = 0, ty = 0;
+							if (!norotate) {
+								// The translation values are set so that after rotation, the correct quadrant is visible in the 800x600 viewport
+								// Gaps: 120px right, 80px below
+								// Top left: (0,0), Top right: (920,0), Bottom left: (0,680), Bottom right: (920,680)
+								switch(section) {
+									case '1': // Top Left, rotate right
+										rotate = 90;
+										tx = 0;
+										ty = -800;
+										break;
+									case '2': // Top Right, rotate left
+										rotate = -90;
+										tx = -920;
+										ty = 0;
+										break;
+									case '3': // Bottom Left, rotate right
+										rotate = 90;
+										tx = -680;
+										ty = -800;
+										break;
+									case '4': // Bottom Right, rotate left
+										rotate = -90;
+										tx = -920;
+										ty = -680;
+										break;
+								}
+								dashboard.style.transform = `rotate(${rotate}deg) translate(${tx}px, ${ty}px)`;
+								dashboard.style.transformOrigin = 'top left';
+							} else {
+								dashboard.style.transform = '';
+								dashboard.style.transformOrigin = '';
+							}
+							// Make sure body stays 800x600
+							document.body.style.width = '800px';
+							document.body.style.height = '600px';
+							document.documentElement.style.width = '800px';
+							document.documentElement.style.height = '600px';
+		</script>
+</body>
+</html>
